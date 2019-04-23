@@ -1,0 +1,106 @@
+
+	<!--Harry McCaffery A6 12/2/2018-->
+<html lang = "en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>A7!</title>
+
+    <style>
+</style>
+  </head>
+  <body >
+  <script type="text/javascript">
+  var score = 0;
+  var errors = 0;
+  var gameOver = false;
+  var targets = {
+
+    "submarine": 20,
+    "moon":10,
+    "sharkfin":50,
+    "toucan":50
+
+};
+	var hintpos = 0;
+	var hints = [
+	"The moon is not on the ground",
+	"This shark really likes to eat kayakers",
+	"The submarine is not in the river",
+	"The toucan is afraid of the moon"
+
+	];
+  function onClick(key){
+  if (gameOver) return;
+   var message = "";
+   if (key == "background")
+   {
+		score -=5;
+		message = "Not An Item! (-5 pts)";
+		errors++;
+
+   }
+
+   else if (targets[key]){
+   		score += targets[key];
+   		message = key + " found! (+"+targets[key]+" pts)";
+   		delete targets[key];
+   }else{
+   		message = "Item already clicked! (-5 pts)";
+   		score -= 5;
+   		errors++;
+   }
+	showMessage(message);
+	showScore();
+
+	if (Object.keys(targets).length == 0)
+	{
+		var bonusString = "";
+		if (errors == 0){ score +=25; bonusString = "(+25 pts) for 0 errors";}
+		gameOver = true;
+		showMessage("Game Won!");
+		alert("Game Won!\n" + "Score: " + score + "\nErrors: "+ errors + "\n" + bonusString);
+	}
+}
+   function showMessage(msg)
+   {
+		document.getElementById("message").innerHTML = msg;
+   }
+   function showScore()
+   {
+   document.getElementById("score").innerHTML ="Score: " + score;
+}
+   function showHint()
+   {
+   if (hintpos >= hints.length) hintpos = 0;
+   showMessage(hints[hintpos]);
+	hintpos++;
+   }
+</script>
+<h1> Find The Objects! </h1>
+<h2> Finish With No Errors For A Bonus!</h2>
+<h2 id="score">Score: 0</h1>
+<img src="https://www.magneticmag.com/.image/c_limit%2Ccs_srgb%2Cq_auto:good%2Cw_1240/MTM5NzI2MzUyNjU4OTk4MzU5/zalando-festival-map-no-title-final-2jpg.webp"
+alt="findTheObjects" usemap="#map">
+
+<map name="map">
+
+ <area shape="rect" coords="530,750,584,832" onclick="onClick('submarine')" >
+ <area shape="rect" coords="1207,534,1240,565" onclick="onClick('toucan')" >
+  <area shape="poly" coords="800,296,800,306,792,307" onclick="onClick('sharkfin')" >
+  <area shape="circle" coords="53,74,19" onclick="onClick('moon')" >
+  <area shape="rect" coords="0,0,1240,845" onclick="onClick('background')" >
+
+</map>
+
+<h1 id="message"></h1>
+<button onclick="showHint()">Show Hint</button>
+<h2>Items</h2><ol>
+  <li>Toucan (Closed Mouth): 50 pts</li>
+  <li>Shark Fin: 50 pts</li>
+  <li>Submarine: 20 pts</li>
+  <li>Moon: 10 pts </li>
+</ol>
+<a href="solution.png"><button type="button">Show Solution</button></a>
+  </body>
+
+</html>
